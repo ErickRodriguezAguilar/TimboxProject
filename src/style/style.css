@@ -1,0 +1,13 @@
+.format-form-item{
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+
+.error-input{
+    border: 2px solid #e28711;
+}
+
+.error-text{
+    color: rgb(228, 18, 18);
+    font-weight: bold;
+}
