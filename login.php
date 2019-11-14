@@ -41,14 +41,15 @@
 <!--Agrego el header.php. Que contiene el "<header></header>" y la declaracion de boostrap.  y el-->
 <?php  include_once('partials/header.php') ?>
 
-    <div class="container">
+    <div class="container format-view">
+
             <div>
                 <h1 style="text-align: center">Registrar Usuario</h1>
             </div>
             <form class="form-group col-10" action="login.php" method="post">
                 <div class="form-group format-form-item">
                     <label for="">Correo Electronico</label>
-                    <input id="inputEmail" class="form-control" type="text" name="email" placeholder="Ingresa Correo Electronico">
+                    <input id="inputEmail" class="form-control" type="text" name="email" placeholder="Ingresa Correo Electronico" value="<?php echo !empty($email)? $email:''; ?>">
                         <!--En caso de alguin error, se mostrara un mensaje. -->
                         <?php  if (!empty($emailError)) : ?>
                             <span class="help-inline error-text"> <?php echo $emailError ?> </span>

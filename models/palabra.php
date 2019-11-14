@@ -5,9 +5,9 @@ class Palabra{
     private $palabra=null;
     private $palabraError=null;
 
-    function __construct($new_palabra)
+    function __construct()
     {
-        $this->palabra =  $new_palabra;    
+       // $this->palabra =  $new_palabra;    
     }
 
 ////////////////////////////Getter and Setters//////////////////////////////
@@ -55,20 +55,27 @@ class Palabra{
     function isValid(){
         $valid=true;
         if ($this->getPalabra() == null){
-           $this->setPalabraError('*La No ingreso ninguna palabra');
+           $this->setPalabraError('* No se Ingreso ninguna palabra en este campo.');
            $valid=false;     
-        }if(ctype_alpha($this->getPalabra())){
-            $this->setPalabraError('*La palabra no debe de contener numeros');
-            $valid=false;
         }
         return $valid;
     }
 
     function isPalindromo(){
-        return true;
+        $valid=true;
+            // Combierte caracteres a lowercase > Remueve los espacios en blanco > palabraOriginal
+        $palabraOriginal= strtolower(str_replace(' ', '', $this->getPalabra()));
+        // Combierte caracteres a lowercase > Remueve los espacios en blanco > se obtiene la palabraOriginal Invertida.
+        $palabraInvertida = strtolower(str_replace(' ','', strrev($palabraOriginal)));
+        if(strcmp($palabraOriginal, $palabraInvertida) ==0 ){
+            
+            $this->setPalabraError('* Esta palabra es un palindromo');
+        }else{
+            $this->setPalabraError('* Esta palabra no es un palindromo');
+            $valid=false;
+        }
+        return $valid;
     }
-
-
 }
 
 ?>

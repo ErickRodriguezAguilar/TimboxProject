@@ -8,9 +8,7 @@
 $("#form").on('submit', function(e){
     //name validatio
     e.preventDefault();
-    var validForm=true;
-
-  
+    var validForm=false;
 
     var name=$("#name");
     var nameError = $("#nameError");
@@ -22,49 +20,93 @@ $("#form").on('submit', function(e){
     var passwordError = $("passwordError");
     var confirmedPassword = $("#confirmedPassword");
     var confirmedPasswordError= $("#confirmedPasswordError");
-   
-    if(!name.val()){
-        name.addClass("error-input");
-        nameError.text("* Please Enter a Name.");
-        nameError.addClass("error-text");
-        validForm=false;
-    }
 
+	name.change(function () {
+        if(name.val()){
+            name.removeClass("error-input");
+            nameError.text("");
+            nameError.removeClass("error-text");
+            validForm=true;
+        }else{
+            name.addClass("error-input");
+            nameError.text("* Please Enter a Name.");
+            nameError.addClass("error-text");
+            validForm=false;
+        }
+      })
 
+      email.change(function(){
+        if(!email.val()){
+            email.addClass("error-input");      
+            emailError.text("* Ingrese un correo electronico");  
+            emailError.addClass("error-text"); 
+            validForm=false;
+        }else{
+            email.removeClass("error-input");
+            emailError.text("");
+            emailError.removeClass("error-text");
+            validForm=true;
+        }
+      });
 
-    if(!email.val()){
-        email.addClass("error-input");      
-        emailError.text("* Ingrese un correo electronico");  
-        emailError.addClass("error-text"); 
-        validForm=false;
-    }
+      rfc.change(function () {
+        if(!rfc.val()){
+            rfc.addClass("error-input");
+            rfcError.text("* Ingrese su RFC.");
+            rfcError.addClass("error-text");
+            validForm=false;
+        }else{
+            rfc.removeClass("error-input");
+            rfcError.text("");
+            rfcError.removeClass("error-text");
+            validForm=true;
+        }
+    });
 
-    if(!rfc.val()){
-        rfc.addClass("error-input");
-        rfcError.text("* Ingrese su RFC.");
-        rfcError.addClass("error-text");
-        validForm=false;
-    }
+    password.change(function () {
+        if(!password.val()){
+            password.addClass("error-input");
+            passwordError.text("* Ingrese su contraseña.");
+            passwordError.addClass("error-text");
+            validForm=false;
+        }else{
+            if(confirmedPassword.val() === password.val() ){
+                confirmedPassword.removeClass("error-input");
+                confirmedPasswordError.text("");
+                confirmedPasswordError.removeClass("error-text"); 
+            }else{
+                password.removeClass("error-input");
+                passwordError.text("");
+                passwordError.removeClass("error-text");
+                validForm=true;
+            }
+        }
+    })
 
-    if(!password.val()){
-        password.addClass("error-input");
-        passwordError.text("* Ingrese su RFC.");
-        passwordError.addClass("error-text");
-    }
+    confirmedPassword.change(function () {
+        if(!confirmedPassword.val()){
+            confirmedPassword.addClass("error-input");
+            confirmedPasswordError.text("* Confirme su contraseña.");
+            confirmedPasswordError.addClass("error-text");
+            validForm=false;
+        }else{
+            if(confirmedPassword.val() === password.val() ){
+                confirmedPassword.removeClass("error-input");
+                confirmedPasswordError.text("");
+                confirmedPasswordError.removeClass("error-text");
+                validForm=true; 
+            }else{
+                confirmedPassword.addClass("error-input");
+                confirmedPasswordError.text("* La contraseñas denben coincidir.");
+                confirmedPasswordError.addClass("error-text");
+                validForm=false;
 
-    if(!confirmedPassword.val()){
-        confirmedPassword.addClass("error-input");
-        confirmedPasswordError.text("* Ingrese su RFC.");
-        confirmedPasswordError.addClass("error-text");
-    }
+            }
+        }
+    });
 
-    if(! (confirmedPassword === password)){
-        confirmedPasswordError.text("* La contraseñas denben coincidir.");
-        confirmedPasswordError.addClass("error-text");
-    }
-
-    if(validForm==true){
-        this.submit();
+    if(validForm===true){
+        
     }
 });
 

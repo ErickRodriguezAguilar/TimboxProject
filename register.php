@@ -6,9 +6,7 @@
         $password = $_POST['password'];
         $confirmPassword = $_POST['passwordConfirm'];
 
-        if (!empty ($name) && !empty($email) && !empty($rfc) && !empty($password) && !empty ($confirmPassword)){
-
-        }
+        print 'Se creoi post request';
     }
   
 ?>
@@ -16,7 +14,7 @@
 <!--Agrego el header.php. Que contiene el "<header></header>" y la declaracion de boostrap.  y el-->
 <?php  include_once('partials/header.php') ?>
 
-    <div class="container">
+    <div class="container format-view">
             <div>
                 <h1 style="text-align: center">Registrar Usuario</h1>
             </div>
@@ -61,7 +59,7 @@
 
                 <!--Submit Form-->
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success">Registrar Usuario</button>
+                    <button id="submitButton" type="submit" class="btn btn-success">Registrar Usuario</button>
                     <a class="btn btn-info" href="index.php">Cancelar</a>
                     <span></span>  
                 </div>

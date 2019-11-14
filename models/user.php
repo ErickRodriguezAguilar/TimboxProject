@@ -2,10 +2,14 @@
 class User{
     private $name=null;
     private $email=null;
+    private $telefono=null;
     private $website=null;
     private $rfc=null;
     private $password=null;
+    private $direccion=null;
 
+    private $direccionError=null;
+    private $telefonoError=null;
     private $nameError=null;
     private $emailError=null;
     private $websiteError=null;
@@ -15,10 +19,6 @@ class User{
     function __construct(){
 
     }
-
-    
-    
-
 
     /**
      * Get the value of name
@@ -219,5 +219,165 @@ class User{
 
         return $this;
     }
+
+    /**
+     * Get the value of telefono
+     */ 
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * Set the value of telefono
+     *
+     * @return  self
+     */ 
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of telefonoError
+     */ 
+    public function getTelefonoError()
+    {
+        return $this->telefonoError;
+    }
+
+    /**
+     * Set the value of telefonoError
+     *
+     * @return  self
+     */ 
+    public function setTelefonoError($telefonoError)
+    {
+        $this->telefonoError = $telefonoError;
+
+        return $this;
+    }
+
+        /**
+     * Get the value of direccionError
+     */ 
+    public function getDireccionError()
+    {
+        return $this->direccionError;
+    }
+
+    /**
+     * Set the value of direccionError
+     *
+     * @return  self
+     */ 
+    public function setDireccionError($direccionError)
+    {
+        $this->direccionError = $direccionError;
+
+        return $this;
+    }
+
+        /**
+     * Get the value of direccion
+     */ 
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * Set the value of direccion
+     *
+     * @return  self
+     */ 
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+////////////////VALIDATION FUNCTIONS ////////////////////////////
+
+function isValid(){
+        $valid=true;
+
+        if(empty($this->getName())){ 
+            $valid=false;
+            $this->setNameError('* Ingrese su nuevo Nombre.');
+        }
+
+        if(empty($this->getRfc())){
+            $valid=false;
+            $this->setRfcError('Ingrese su RFC');
+        }elseif(!$this->isRfcValid()){
+            $valid=false;
+            $this->setRfcError('Ingrese el formato correcto de su RFC');
+        }
+
+        if(empty($this->getDireccion())){ 
+            $valid=false;
+            $this->setDireccionError('* Ingrese su direccion.');
+        }
+
+        if(empty($this->getTelefono())){
+            $valid=false;
+            $this->setTelefonoError('Ingrese su numero de telefono');
+        }else if(!$this->isTelefonoValid()){
+            $valid=false;
+            $this->setTelefonoError('Ingrese un numero de telefono valido.');
+        }
+
+        if(empty($this->getWebsite())){ 
+            $valid=false;
+            $this->setWebsiteError('* Ingrese su Website');
+        }else if(!$this->isWebsiteValid()){
+            $valid=false;
+            $this->setWebsiteError("* Ingrese un nombre de website valido");
+        }
+
+
+        if(empty($this->getPassword())){
+            $valid=false;
+            $this->setPasswordError('* Ingrese su nueva Contraseña.');
+        }
+    }
+
+    function isRfcValid(){
+        //Expresion regular  
+        $regex= '/^(([A-ZÑ&]{4})([0-9]{2})([0][1-9]|[1][0-2])([0][1-9]|[1-2][0-9]|[3][0-1])([A-Z0-9]{3}))$/';
+        if(preg_match($regex,$this->getRfc())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function isEmailValid(){
+        return true;
+    }
+
+    function isWebsiteValid(){
+        if(filter_var($this->getWebsite(), FILTER_VALIDATE_DOMAIN)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    function isTelefonoValid(){
+        $regex= '/^[0-9]{10}$/';
+        if(preg_match($regex,$this->getTelefono())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
 }
 ?>
