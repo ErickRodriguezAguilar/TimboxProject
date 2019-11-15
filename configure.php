@@ -23,10 +23,11 @@ session_start();
             $q = $pdo->prepare($sql);
             $q->execute(array($user->getName(),$user->getRfc(),$user->getDireccion(),$user->getTelefono(),$user->getWebsite(), $user->getPassword(), $_SESSION['id']));
             Database::disconnect();
-            header("Location: site.php");
+            header("Location: site.php?validConfig=1");
         }
     //en cado de que el request post este vacio, se mostrara las variables en los input box.
     }else{
+        //Busca en la base de datos al usuario en $_SESSION para agregar los valores a los campos de input.
         $pdo= Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql="Select * from usuarios where id=?";

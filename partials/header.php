@@ -1,6 +1,6 @@
 <?php $_SESSION['user'] = null ;?>
 
-
+<!--Header de las paginas. Aqui se agregan el link style, jquery, boostrap.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

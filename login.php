@@ -52,11 +52,11 @@
 <?php  include_once('partials/header.php') ?>
 
     <div class="container format-view">
-
             <div>
                 <h1 style="text-align: center">Registrar Usuario</h1>
             </div>
             <div>
+                <!--Mensaje se mostrara cuando no se haya encontrado al usuario en la base de datos. -->
                 <?php if(!empty($databaseError)): ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $databaseError; ?>
