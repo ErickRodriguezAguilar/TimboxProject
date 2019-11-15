@@ -1,9 +1,9 @@
 <?php 
     class Database {
-        private static $dbName = 'crud_tutorial';
-        private static $dbHost = 'localhost';
-        private static $dbUserName = 'root';
-        private static $dbUserPassword = '';
+        private static $dbName = 'heroku_6010848f080b246';
+        private static $dbHost = 'us-cdbr-iron-east-05.cleardb.net';
+        private static $dbUserName = 'b2fa3fa3780f8b';
+        private static $dbUserPassword = 'f15e3e76';
     
         private static $cont = null;
 
