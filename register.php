@@ -1,12 +1,16 @@
 <?php 
+include_once 'models/user.php';
+$user = new User();
+$databaseError= null;
     if(!empty($_POST)){
-        $name= $_POST['name'];
-        $email=$_POST['email'];
-        $rfc=$_POST['rfc'];
-        $password = $_POST['password'];
-        $confirmPassword = $_POST['passwordConfirm'];
+        $user->setName($_POST['name']);
+        $user->setEmail($_POST['email']);
+        $user->getRfc(POST['rfc']);
+        $user->getPassword($_POST['password']);
 
         print 'Se creoi post request';
+        
+    
     }
   
 ?>
@@ -26,35 +30,35 @@
                 <div class="form-group format-form-item">
                     <label for="">Nombre</label>
                     <input id="name" class="form-control" type="text" name="name" placeholder="Ingresa nombre">
-                    <span id="nameError"></span>   
+                    <span id="nameError" class="error-text"></span>   
                 </div>
 
                   <!--E-mail field.-->
                 <div class="form-group format-form-item">
                     <label for="">E-mail</label>
                     <input id="email" class="form-control" type="text" name="email" placeholder="Ingresar Correo Electronico">
-                    <span id="emailError"></span>     
+                    <span id="emailError" class="error-text"></span>     
                 </div>
 
                   <!--RFC field.-->
                 <div class="form-group format-form-item">
                     <label for="">RFC</label>
                     <input id="rfc" class="form-control" type="text" name="rfc" placeholder="Ingresar RFC">
-                    <span id="rfcError"> </span>     
+                    <span id="rfcError" class="error-text">  </span>     
                 </div>
 
                   <!--Password field.-->
                 <div class="form-group format-form-item">
                     <label for="">Password</label>
                     <input id="password" class="form-control" type="password" name="password" placeholder="Ingresar password">
-                    <span id="passwordError"></span>     
+                    <span id="passwordError" class="error-text"></span>     
                 </div>
 
                 <!--Confimar password field.-->
                 <div class="form-group format-form-item">
                     <label for="">Confirmar Password</label>
                     <input id="confirmedPassword" class="form-control" type="password" name="passwordConfirm" placeholder="Confirmar password">   
-                    <span id="confirmedPasswordError"></span>  
+                    <span id="confirmedPasswordError" class="error-text"></span>  
                 </div>
 
                 <!--Submit Form-->

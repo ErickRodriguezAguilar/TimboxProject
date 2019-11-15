@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+    require 'models/database.php';
     $email=null;
     $password=null;
 
@@ -24,14 +26,23 @@
 
         if(empty($password)){
             $valid=false;
-            $passwordError = ' *Por favor, ingresa su correo contraseña.';
+            $passwordError = ' *Por favor, ingresa su contraseña.';
         }
 
         //Logica para buscar usuario en Database. 
         if($valid){
+            $pdo = Database::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $sql="Select id from customers where email=? AND password=? ";
+            $q= $pdo->prepare($sql);
+            $q->execute(array($email,$password));
+            $data= $q->fetch(PDO::FETCH_ASSOC);
+            Database::disconnect();
             $data=null;
             if(empty($data)){
-                $databaseError= 'El correo electronico o la contraseña no son correctos. Porfavor de verificarlo'; 
+                $databaseError= 'El correo electronico o la contraseña no son correctos. Por favor de verificarlo'; 
+            }else{
+                header('Location: site.php?id=' . $id);
             }
         }
     }
@@ -45,6 +56,13 @@
 
             <div>
                 <h1 style="text-align: center">Registrar Usuario</h1>
+            </div>
+            <div>
+                <?php if(!empty($databaseError)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $databaseError; ?>
+                    </div>
+                <?php endif;?>
             </div>
             <form class="form-group col-10" action="login.php" method="post">
                 <div class="form-group format-form-item">

@@ -5,118 +5,111 @@
  * 
  */
 
-$("#form").on('submit', function(e){
-    //name validatio
-    e.preventDefault();
-    var validForm=false;
+$("#form").submit(validate);
 
-    var name=$("#name");
-    var nameError = $("#nameError");
-    var email = $("#email");
-    var emailError = $("#emailError");
-    var rfc =$("#rfc");
-    var rfcError=$("#rfcError");
-    var password =$("#password");
-    var passwordError = $("passwordError");
-    var confirmedPassword = $("#confirmedPassword");
-    var confirmedPasswordError= $("#confirmedPasswordError");
 
-	name.change(function () {
-        if(name.val()){
-            name.removeClass("error-input");
-            nameError.text("");
-            nameError.removeClass("error-text");
-            validForm=true;
-        }else{
-            name.addClass("error-input");
-            nameError.text("* Please Enter a Name.");
-            nameError.addClass("error-text");
-            validForm=false;
-        }
-      })
+function validate(){
 
-      email.change(function(){
-        if(!email.val()){
-            email.addClass("error-input");      
-            emailError.text("* Ingrese un correo electronico");  
-            emailError.addClass("error-text"); 
-            validForm=false;
-        }else{
-            email.removeClass("error-input");
-            emailError.text("");
-            emailError.removeClass("error-text");
-            validForm=true;
-        }
-      });
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var rfc = $("#rfc").val();
+    var password = $("#password").val();
+    var confirmedPassword = $("#confirmedPassword").val();
 
-      rfc.change(function () {
-        if(!rfc.val()){
-            rfc.addClass("error-input");
-            rfcError.text("* Ingrese su RFC.");
-            rfcError.addClass("error-text");
-            validForm=false;
-        }else{
-            rfc.removeClass("error-input");
-            rfcError.text("");
-            rfcError.removeClass("error-text");
-            validForm=true;
-        }
-    });
+    var validForm=true;
 
-    password.change(function () {
-        if(!password.val()){
-            password.addClass("error-input");
-            passwordError.text("* Ingrese su contraseña.");
-            passwordError.addClass("error-text");
-            validForm=false;
-        }else{
-            if(confirmedPassword.val() === password.val() ){
-                confirmedPassword.removeClass("error-input");
-                confirmedPasswordError.text("");
-                confirmedPasswordError.removeClass("error-text"); 
-            }else{
-                password.removeClass("error-input");
-                passwordError.text("");
-                passwordError.removeClass("error-text");
-                validForm=true;
-            }
-        }
-    })
+    //validacion nombre.
+   if(!name){
+        $("#nameError").text("* Por favor ingresar su nombre");
+        validForm=false;
+   }else{
+       $("#nameError").text("");
+   } 
 
-    confirmedPassword.change(function () {
-        if(!confirmedPassword.val()){
-            confirmedPassword.addClass("error-input");
-            confirmedPasswordError.text("* Confirme su contraseña.");
-            confirmedPasswordError.addClass("error-text");
-            validForm=false;
-        }else{
-            if(confirmedPassword.val() === password.val() ){
-                confirmedPassword.removeClass("error-input");
-                confirmedPasswordError.text("");
-                confirmedPasswordError.removeClass("error-text");
-                validForm=true; 
-            }else{
-                confirmedPassword.addClass("error-input");
-                confirmedPasswordError.text("* La contraseñas denben coincidir.");
-                confirmedPasswordError.addClass("error-text");
-                validForm=false;
-
-            }
-        }
-    });
-
-    if(validForm===true){
+   //validacion email
+   if(!email){
+    $("#email").addClass("error-input");
+       $("#name").toggleClass("error-input");
+        $("#emailError").text("* Por favor ingresar su nombre");
+        validForm=false;
+    }else{
         
+        if(!isEmailValid(email)){
+            $("#email").addClass("error-input");
+            $("#emailError").text("* El formato del correo no es invalido.");
+            validForm=false;
+        }else{
+            $("#name").removeClass("error-input");
+            $("#emailError").text("");
+        }
+    } 
+
+    //validacion de rfc
+    if(!rfc){
+        $("#rfc").addClass("error-input");
+        $("#rfcError").text("* Por favor ingresar su nombre");
+        validForm=false;
+    }else{
+        if(!isRfcValid(rfc)){
+            $("#rfc").addClass("error-input");
+            $("#rfcError").text("* El formato del RFC es invalido.");
+            validForm=false;
+        }else{
+            $("#rfc").removeClass("error-input");
+            $("#rfcError").text("");
+        }
+        
+    } 
+
+    //Validaciones de los campos de contraseñas
+    if(!password){
+        $("#password").addClass("error-input");
+        $("#passwordError").text("* Por favor ingresar su nombre");
+        validForm=false;
+    }else{
+        $("#password").removeClass("error-input");
+        $("#passwordError").text("");
+    } 
+
+    if(!confirmedPassword){
+        $("#confirmedPassword").addClass("error-input");
+        $("#confirmedPasswordError").text("* Por favor ingresar su nombre");
+        validForm=false;
+    }else{
+        $("#confirmedPassword").removeClass("error-input");
+        $("#confirmedPasswordError").text("");
+    } 
+
+    //comparacion de passwords.
+    if(! (password == confirmedPassword)){
+        validForm=false;
+        $("#confirmedPassword").addClass("error-input");
+        $("#password").addClass("error-input");
+        $("#confirmedPasswordError").text("*  Verifique que las contraseñas coincidan");
     }
-});
 
-function isValidEmail(email){
-    //Expresion regular para validad si es un correo electronico. 
-    var re = /\S+@\S+\.\S+/;
-    return re.test(email);
+
+    return validForm;
 }
 
-function isValidRfc(){
-    return true;
+
+
+function isRfcValid(rfc){
+    //Expresion regular para validad si el RFC es valido. 
+     var regex = "^(([A-ZÑ&]{4})([0-9]{2})([0][1-9]|[1][0-2])([0][1-9]|[1-2][0-9]|[3][0-1])([A-Z0-9]{3}))$";
+    if(rfc.match(regex)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
+function isEmailValid(email){
+        //Expresion regular para validad si es un correo electronico. 
+        var regex = "^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$";
+        if(email.match(regex)){
+            return true;
+        }else{
+            return false;
+        }
+}

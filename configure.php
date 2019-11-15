@@ -1,6 +1,12 @@
 <?php 
+    include_once 'models/database.php';
     include_once 'models/user.php';
     $user = new User();
+    $id=null;
+
+    if(!empty($_GET['id'])){
+        $id = $_REQUEST['id'];
+    }
 
     if(!empty($_POST)){
         $user->setName($_POST['name']);
@@ -10,10 +16,33 @@
         $user->setWebsite($_POST['website']);
         $user->setPassword($_POST['password']);
 
-        if($user->isValid()){
-            //database logic.
+        // update data
+        if ($valid) {
+            $pdo = Database::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "UPDATE customers  set name = ?, rfc = ?. direccion=?, telefono=?, website=?, password=? WHERE id = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($user->getName(),$user->getRfc(),$user->getDireccion(),$user->getTelefono(),$user->getWebsite(), $user->getPassword(), $id));
+            Database::disconnect();
+            header("Location: index.php");
         }
+    //en cado de que el request post este vacio, se mostrara las variables en los input box.
+    }else{
+        $pdo= Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql="Select * from customers where id=?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data= $q->fetch(PDO::FETCH_ASSOC);
+        $user->setName($data['name']);
+        $user->setRfc($data['rfc']);
+        $user->setDireccion($data['direccion']);
+        $user->setTelefono($data['telefono']);
+        $user->setWebsite($data['website']);
+        $user->setPassword($data['password']);
+        Database::disconnect();
     }
+
 ?>
 
 <!--Agrego el header.php. Que contiene el "<header></header>" y la declaracion de boostrap.  y el-->
@@ -96,7 +125,7 @@
                 <!--Submit Form-->
                 <div class="form-actions">
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                    <a class="btn btn-info" href="index.php">Regresar a inicio</a>
+                    <a class="btn btn-info" href="site.php">Regresar a inicio</a>
                 </div>
             </form>
     </div>

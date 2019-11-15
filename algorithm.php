@@ -121,7 +121,7 @@
                 <!--Submit Form-->
                 <div class="form-actions">
                     <button type="submit" class="btn btn-success">Buscar palindromos</button>
-                    <a class="btn btn-info" href="index.php">Regresar a inicio</a>
+                    <a class="btn btn-info" href="site.php">Regresar a inicio</a>
                 </div>
             </form>
     </div>
