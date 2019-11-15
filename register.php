@@ -32,9 +32,6 @@ $emailError=null;
         }else{
             $databaseError= 'El RFC o el correon ya estan registrados. Por favor de proporcionar otra informacion. ';
         }
-            
-
-    
     }
   
 ?>

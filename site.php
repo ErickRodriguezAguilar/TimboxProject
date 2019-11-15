@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
     $message=null;
     if(!empty($_GET)) {;
         $message="Se han guardado las configuraciones hechas.";
@@ -22,7 +22,7 @@ session_start();
                 </div>
                 <!--Se mostrara un mensaje despues de guardar las configuraciones del usuario en configure.php-->
                 <?php if(!empty($message)): ?>
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-sucess" role="alert">
                         <?php echo $message; ?>
                     </div>
                 <?php endif;?>

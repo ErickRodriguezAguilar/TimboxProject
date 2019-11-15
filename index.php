@@ -1,13 +1,10 @@
 <!--Agrego el header.php. Que contiene el "<header></header>" y la declaracion de boostrap.  y el-->
 <?php  include_once('partials/header.php');
-    session_start();
     $message=null;
     if(!empty($_GET)) {;
         $message="Se ha registrado con exito un usuario";
     }
 ?>
-
-
     <div class="container format-view">
         <div class="jumbotron">
             <div class="center" style="border: none;">
