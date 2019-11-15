@@ -1,15 +1,39 @@
 <?php 
+session_start();
+
 include_once 'models/user.php';
+include_once 'models/database.php';
 $user = new User();
-$databaseError= null;
+$rfcError= null;
+$emailError=null;
+
     if(!empty($_POST)){
         $user->setName($_POST['name']);
         $user->setEmail($_POST['email']);
-        $user->getRfc(POST['rfc']);
-        $user->getPassword($_POST['password']);
+        $user->setRfc($_POST['rfc']);
+        $user->setPassword($_POST['password']);
+        $valid=true;
 
-        print 'Se creoi post request';
-        
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="Select rfc,email from usuarios where rfc=? Or email=?";
+        $q= $pdo->prepare($sql);
+        $q->execute(array($user->getRfc(),$user->getEmail()));
+        $rfcData= $q->fetch(PDO::FETCH_ASSOC);
+        Database::disconnect();
+        if(!$rfcData){  
+            $pdo= Database::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql="INSERT INTO usuarios (name,email,rfc,password) values(?,?,?,?)";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($user->getName(), $user->getEmail(),$user->getRfc(),$user->getPassword()));
+            Database::disconnect();
+            header("Location: index.php?userValid=1");
+        }else{
+            $databaseError= 'El RFC o el correon ya estan registrados. Por favor de proporcionar otra informacion. ';
+        }
+            
+
     
     }
   
@@ -22,6 +46,12 @@ $databaseError= null;
             <div>
                 <h1 style="text-align: center">Registrar Usuario</h1>
             </div>
+
+            <?php if(!empty($databaseError)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $databaseError; ?>
+                    </div>
+                <?php endif;?>
 
               <!--Form Section.-->
             <form id="form" class="form-group col-10" action="register.php" method="post">

@@ -1,6 +1,5 @@
 <?php 
-
-    $name= "Erick";
+session_start();
 ?>
 
 <!--Agrego el header.php. Que contiene el "<header></header>" y la declaracion de boostrap.  y el-->
@@ -9,9 +8,14 @@
     <div class="container">
         <div class="jumbotron format-view">
                 <div>
+
+                    <div style="text-align: right;">
+                    <a class="btn btn-outline-danger" href="index.php">Cerrar Sesion</a>
+                    </div>
                     <div>
+                        
                         <img src="src/images/chico.png"  style="width: 20%; height:40%;"alt="">
-                        <h1  style="display:inline-block"  class="display-2">Bienvenido,  <?php echo $name ?> </h1>
+                        <h1  style="display:inline-block"  class="display-6">Bienvenido,  <?php echo $_SESSION['name'] ;?> </h1>
                     </div>
                     
                 </div>

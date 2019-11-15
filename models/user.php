@@ -302,7 +302,7 @@ class User{
 
 ////////////////VALIDATION FUNCTIONS ////////////////////////////
 
-function isValid(){
+function isValidForConfiguration(){
         $valid=true;
 
         if(empty($this->getName())){ 
@@ -344,7 +344,10 @@ function isValid(){
             $valid=false;
             $this->setPasswordError('* Ingrese su nueva Contraseña.');
         }
+        return $valid;
     }
+
+
 
     function isRfcValid(){
         //Expresion regular  

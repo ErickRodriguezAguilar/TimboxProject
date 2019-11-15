@@ -1,12 +1,10 @@
 <?php
-
+    session_start();
     require 'models/database.php';
     $email=null;
     $password=null;
-
     $emailError=null;
     $passwordError=null;
-
     $databaseError=null;
 
 
@@ -33,16 +31,17 @@
         if($valid){
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql="Select id from customers where email=? AND password=? ";
+            $sql="Select id,name from usuarios where email=? AND password=? ";
             $q= $pdo->prepare($sql);
             $q->execute(array($email,$password));
             $data= $q->fetch(PDO::FETCH_ASSOC);
             Database::disconnect();
-            $data=null;
-            if(empty($data)){
-                $databaseError= 'El correo electronico o la contraseña no son correctos. Por favor de verificarlo'; 
+            if($data){  
+                $_SESSION['id'] = $data['id'];
+                $_SESSION['name'] = $data['name'];
+                header("Location: site.php");
             }else{
-                header('Location: site.php?id=' . $id);
+                $databaseError= 'El correo electronico o la contraseña no son correctos. Por favor de verificarlo'; 
             }
         }
     }

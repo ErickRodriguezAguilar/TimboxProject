@@ -1,12 +1,11 @@
 <?php 
+
+session_start();
+
     include_once 'models/database.php';
     include_once 'models/user.php';
     $user = new User();
     $id=null;
-
-    if(!empty($_GET['id'])){
-        $id = $_REQUEST['id'];
-    }
 
     if(!empty($_POST)){
         $user->setName($_POST['name']);
@@ -17,22 +16,22 @@
         $user->setPassword($_POST['password']);
 
         // update data
-        if ($valid) {
+        if ($user->isValidForConfiguration()) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE customers  set name = ?, rfc = ?. direccion=?, telefono=?, website=?, password=? WHERE id = ?";
+            $sql = "UPDATE usuarios  set name = ?, rfc = ?, direccion=?, telefono=?, website=?, password=? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($user->getName(),$user->getRfc(),$user->getDireccion(),$user->getTelefono(),$user->getWebsite(), $user->getPassword(), $id));
+            $q->execute(array($user->getName(),$user->getRfc(),$user->getDireccion(),$user->getTelefono(),$user->getWebsite(), $user->getPassword(), $_SESSION['id']));
             Database::disconnect();
-            header("Location: index.php");
+            header("Location: site.php");
         }
     //en cado de que el request post este vacio, se mostrara las variables en los input box.
     }else{
         $pdo= Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql="Select * from customers where id=?";
+        $sql="Select * from usuarios where id=?";
         $q = $pdo->prepare($sql);
-        $q->execute(array($id));
+        $q->execute(array($_SESSION['id']));
         $data= $q->fetch(PDO::FETCH_ASSOC);
         $user->setName($data['name']);
         $user->setRfc($data['rfc']);
